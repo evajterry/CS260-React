@@ -1,0 +1,99 @@
+/* Main popup styling */
+.popup {
+    position: fixed; /* Fixed positioning for the popup */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Shift back by half its size to truly center */
+    width: 90%; /* Responsive width */
+    max-width: 500px; /* Maximum width for larger screens */
+    background: #ffffff; /* White background for the popup */
+    padding: 20px; /* Padding inside the popup */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect for depth */
+    border-radius: 8px; /* Rounded corners */
+    z-index: 1000; /* Ensure it's above other content */
+  }
+  
+  /* Overlay to dim the background when the popup is active */
+  .popup-overlay {
+    position: fixed; /* Fixed positioning for the overlay */
+    top: 0; /* Align to top */
+    left: 0; /* Align to left */
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Just below the popup */
+  }
+  
+  /* Close button styling */
+  .close {
+    position: absolute; /* Absolute positioning within the popup */
+    top: 10px; /* Space from the top */
+    right: 10px; /* Space from the right */
+    font-size: 24px; /* Font size */
+    color: #555; /* Color of the close button */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+  
+  /* Form header styling */
+  h2 {
+    text-align: center; /* Center the header text */
+    font-size: 1.5em; /* Header font size */
+    margin-bottom: 20px; /* Space below the header */
+    color: #333; /* Dark color for text */
+  }
+  
+  /* Form group styling */
+  .form-group {
+    margin-bottom: 15px; /* Space between form groups */
+  }
+  
+  .form-group label {
+    display: block; /* Labels take full width */
+    font-size: 1em; /* Label font size */
+    margin-bottom: 5px; /* Space below the label */
+    color: #85a688; /* Color of the label text */
+  }
+  
+  /* Input and select fields styling */
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="date"],
+  .form-group input[type="password"],
+  .form-group select {
+    width: 80%; /* Width of input fields */
+    padding: 10px; /* Padding inside inputs */
+    text-align: center; /* Center text */
+    font-size: 1em; /* Font size */
+    border: 1px solid #2e442e; /* Dark green border for inputs */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #608f60; /* Input background color */
+    color: #ffffff; /* White text color */
+  }
+
+  /* Style for placeholder text */
+.form-group input::placeholder,
+.form-group input[type="email"]::placeholder,
+.form-group input[type="date"]::placeholder,
+.form-group input[type="password"]::placeholder,
+.form-group select::placeholder {
+  color: #ffffff; /* Set placeholder text color to white */
+  opacity: 0.7; /* Optional: Adjust opacity for better visibility */
+}
+  
+  /* Submit button styling */
+  .submit-btn {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding for button */
+    font-size: 1em; /* Button font size */
+    color: #ffffff; /* White text color */
+    background-color: #026502; /* Button background color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  .submit-btn:hover {
+    background-color: #007185; /* Change background color on hover */
+  }
+  
