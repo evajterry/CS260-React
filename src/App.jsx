@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import Popup from './Popup';
-import { AuthState } from "./authState.js";
+import { AuthState } from "./Login/authState.js";
 import CreateAccountPopup from './CreateAccountPopup'; 
-import './App.css';
+
 // import { Header } from './Header';  // I don't know if I should have curly brackets around Header
 import About from './About/About.jsx';
 import Profile from './Profile/Profile';
 import Search from './Search/Search';
+import { Login } from './Login/login';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import EmilyImage from './images/Emily_Dickinson.png';
+import HeaneyImage from "./images/Seamus_Heaney.png";
+import FrostImage from "./images/frost_centenary_top.webp";
+import WordsworthImage from "./images/william_wordsworth.png"; 
+import YeatsImage from "./images/william-yeats.jpeg";
+import AtwoodImage from "./images/margaret-atwood.webp";
+
 // import Search from './pages/Search'; 
 import { BrowserRouter as Router, Route, Routes, BrowserRouter, NavLink } from 'react-router-dom';
 
@@ -37,11 +47,11 @@ function App() {
     <BrowserRouter>
       {/* <Header showLoginPopup={showLoginPopup} showCreateAccountPopup={showCreateAccountPopup} /> */}
       {/* Need to add the header */}
+      {authState === AuthState.Authenticated && (
       <header className='container-fluid'>
           <nav className='navbar fixed-top navbar-dark'>
-            <div className='navbar-brand'>
-              Poetry Portfolios<sup>&reg;</sup>
-            </div>
+            {/* <div className='navbar-brand'>
+            </div> */}
             <menu className='navbar-nav'>
               {/* <li className='nav-item'>
                 <NavLink className='nav-link' to=''>
@@ -70,20 +80,21 @@ function App() {
             </menu>
           </nav>
         </header>
+        )}
       {/* Define routes here */}
       <Routes>
           <Route // change this to being a popup instead of a new page
             path='/'
-            // element={
-            //   <Login
-            //     userName={userName}
-            //     authState={authState}
-            //     onAuthChange={(userName, authState) => {
-            //       setAuthState(authState);
-            //       setUserName(userName);
-            //     }}
-            //   />
-            // }
+            element={
+              <Login
+                userName={userName}
+                authState={authState}
+                onAuthChange={(userName, authState) => {
+                  setAuthState(authState);
+                  setUserName(userName);
+                }}
+              />
+            }
             exact
           />
           <Route path='/Search' element={<Search />} />
@@ -138,7 +149,7 @@ function App() {
 const PhotoGallery = () => (
   <>
     <div className="photo">
-      <img src="images/Emily Dickinson.png" alt="Emily Dickinson" />
+      <img src={EmilyImage} alt="Emily Dickinson" />
       <div className="overlay">
         <p className="quote">
           "If I feel physically as if the top of my head were taken off, I know that is poetry."
@@ -149,7 +160,7 @@ const PhotoGallery = () => (
       </div>
     </div>
     <div className="photo">
-      <img src="images/Seamus Heaney.png" alt="Seamus Heaney" />
+      <img src={HeaneyImage} alt="Seamus Heaney" />
       <div className="overlay">
         <p className="quote">
           “The gift of writing is to be self-forgetful, to get a surge of inner life or inner supply or unexpected sense of empowerment, to be afloat, to be out of yourself.”
@@ -160,7 +171,7 @@ const PhotoGallery = () => (
       </div>
     </div>
     <div className="photo">
-      <img src="images/frost_centenary_top.webp" alt="Robert Frost" />
+      <img src={FrostImage} alt="Robert Frost" />
       <div className="overlay">
         <p className="quote">
           “I have never started a poem yet whose end I knew. Writing a poem is discovering.”
@@ -171,7 +182,7 @@ const PhotoGallery = () => (
       </div>
     </div>
     <div className="photo">
-      <img src="images/william-wordsworth.png" alt="William Wordsworth" />
+      <img src={WordsworthImage} alt="William Wordsworth" />
       <div className="overlay">
         <p className="quote">
           Poetry is “the first and last of all knowledge—it is as immortal as the heart of man.”
@@ -182,7 +193,7 @@ const PhotoGallery = () => (
       </div>
     </div>
     <div className="photo">
-      <img src="images/william-yeats.jpeg" alt="William Butler Yeats" />
+      <img src={YeatsImage} alt="William Butler Yeats" />
       <div className="overlay">
         <p className="quote">
           “We make out of the quarrel with others, rhetoric, but of the quarrel with ourselves, poetry.”
@@ -193,7 +204,7 @@ const PhotoGallery = () => (
       </div>
     </div>
     <div className="photo">
-      <img src="images/margaret-atwood.webp" alt="Margaret Atwood" />
+      <img src={AtwoodImage} alt="Margaret Atwood" />
       <div className="overlay">
         <p className="quote">
           "I don’t think I solve problems in my poetry; I think I uncover the problems.”
