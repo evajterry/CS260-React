@@ -18,7 +18,7 @@ import YeatsImage from "./images/william-yeats.jpeg";
 import AtwoodImage from "./images/margaret-atwood.webp";
 
 // import Search from './pages/Search'; 
-import { BrowserRouter as Router, Route, Routes, BrowserRouter, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, BrowserRouter, NavLink, Navigate, useNavigate } from 'react-router-dom';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -27,6 +27,9 @@ function App() {
   // need to define AuthState
   const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
   const [authState, setAuthState] = React.useState(currentAuthState);
+  // const navigate = useNavigate(); // Add useNavigate
+
+  // const toggleLoginPopup = () => setShowLogin(!showLogin);
 
   const hidePopups = () => {
     setShowLogin(false);
@@ -43,66 +46,26 @@ function App() {
     setShowCreateAccount(true);
   };
 
+  const handleAuthChange = (userName, authState) => {
+    setUserName(userName);
+    setAuthState(authState);
+    setShowLogin(false);
+    // navigate('/Search'); // Redirect to the Search page
+  };
+
   return (
     <BrowserRouter>
-      {/* <Header showLoginPopup={showLoginPopup} showCreateAccountPopup={showCreateAccountPopup} /> */}
-      {/* Need to add the header */}
-      {authState === AuthState.Authenticated && (
-      <header className='container-fluid'>
-          <nav className='navbar fixed-top navbar-dark'>
-            {/* <div className='navbar-brand'>
-            </div> */}
-            <menu className='navbar-nav'>
-              {/* <li className='nav-item'>
-                <NavLink className='nav-link' to=''>
-                  Login
-                </NavLink>
-              </li> */}
-              {authState === AuthState.Authenticated && (
-                <li className='nav-item'>
-                  <NavLink className='nav-link' to='Search'>
-                    Search
-                  </NavLink>
-                </li>
-              )}
-              {authState === AuthState.Authenticated && (
-                <li className='nav-item'>
-                  <NavLink className='nav-link' to='Profile'>
-                    Profile
-                  </NavLink>
-                </li>
-              )}
-              <li className='nav-item'>
-                <NavLink className='nav-link' to='About'>
-                  About
-                </NavLink>
-              </li>
-            </menu>
-          </nav>
-        </header>
-        )}
-      {/* Define routes here */}
-      <Routes>
-          <Route // change this to being a popup instead of a new page
-            path='/'
-            element={
-              <Login
-                userName={userName}
-                authState={authState}
-                onAuthChange={(userName, authState) => {
-                  setAuthState(authState);
-                  setUserName(userName);
-                }}
-              />
-            }
-            exact
-          />
-          <Route path='/Search' element={<Search />} />
-          <Route path='/Profile' element={<Profile />} />
-          <Route path='/About' element={<About />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-
+      {showLogin && (
+        <Login
+          userName={userName}
+          authState={authState}
+          onAuthChange={(userName, authState) => {
+            setAuthState(authState);
+            setUserName(userName);
+            setShowLogin(false); // Close popup on successful login/logout
+          }}
+        />
+      )}
       <div>
         <h1>Poetry Portfolio</h1>
         <div className="button-container">
@@ -141,6 +104,18 @@ function App() {
             <CreateAccountPopup hidePopups={hidePopups} />
           </>
         )}
+        <div>
+          <Routes>
+          <Route // change this to being a popup instead of a new page
+            path='/'
+            element={authState === AuthState.Authenticated ? <Navigate to="/Profile" /> : <Login userName={userName} authState={authState} onAuthChange={handleAuthChange} />}
+          />
+            <Route path='/Search' element={<Search />} />
+            <Route path='/Profile' element={<Profile />} />
+            <Route path='/About' element={<About />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   );
@@ -221,4 +196,22 @@ export default App;
 
 function NotFound() {
   return <main className='container-fluid bg-secondary text-center'>404: Return to sender. Address unknown.</main>;
+}
+
+export function LoginComponent({ userName, authState, onAuthChange }) {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Simulate authentication logic
+    const updatedUserName = "John Doe";  // Replace with actual user input
+    onAuthChange(updatedUserName, AuthState.Authenticated);
+    navigate('./Search');  // Redirect to the Search page after login
+  };
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <button onClick={handleLogin}>Log in</button>
+    </div>
+  );
 }
