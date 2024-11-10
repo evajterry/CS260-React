@@ -8,7 +8,7 @@ import About from './About/About.jsx';
 import Profile from './Profile/Profile';
 import Search from './Search/Search';
 import { Login } from './Login/login';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import EmilyImage from './images/Emily_Dickinson.png';
 import HeaneyImage from "./images/Seamus_Heaney.png";
@@ -16,6 +16,7 @@ import FrostImage from "./images/frost_centenary_top.webp";
 import WordsworthImage from "./images/william_wordsworth.png"; 
 import YeatsImage from "./images/william-yeats.jpeg";
 import AtwoodImage from "./images/margaret-atwood.webp";
+// add github link *****
 
 // import Search from './pages/Search'; 
 import { BrowserRouter, NavLink, Route, Routes, Navigate, useNavigate } from 'react-router-dom';

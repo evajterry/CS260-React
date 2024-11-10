@@ -79,6 +79,7 @@ header p {
     align-items: center;
 }
 
+
 .bio-section h2 {
     margin-bottom: 10px;
     padding: 10px;
@@ -90,10 +91,11 @@ header p {
     align-items: center; 
     width: 30%; 
     height: 100%;
-    padding: 10px; /* Padding for the textarea */
+    padding: 20px; /* Padding for the textarea */
     border: 1px solid #ccc; /* Light border */
     border-radius: 4px; /* Rounded corners */
     resize: none; 
+    background-color: #ccc;
 }
 
 #save-bio {

@@ -23,7 +23,7 @@ const Popup = ({ hidePopups, onLogin }) => {
       <div className="popup-overlay" id="overlay" onClick={hidePopups}></div>
       <div className="popup" id="loginPopup">
         <span className="close" onClick={hidePopups}>&times;</span>
-        <h2>Login</h2>
+        {/* <h2>Login</h2> */}
         <form onSubmit={navigateToSearch}>
           <div className="form-group">
             <span>@</span>
