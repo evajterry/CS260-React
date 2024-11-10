@@ -132,9 +132,13 @@ function App() {
           </>
         )}
         <Routes>
-          <Route 
-            path='/' 
-            element={authState === AuthState.Authenticated ? <Navigate to="/Search" /> : <LoginComponent userName={userName} authState={authState} onAuthChange={handleAuthChange} />} 
+          <Route
+            path='/'
+            element={authState === AuthState.Authenticated ? (
+              <Navigate to="/Search" replace />
+            ) : (
+              <LoginComponent userName={userName} authState={authState} onAuthChange={handleAuthChange} />
+            )}
           />
           <Route path='/Search' element={<Search />} />
           <Route path='/Profile' element={<Profile />} />
@@ -214,6 +218,17 @@ const PhotoGallery = () => (
         </p>
       </div>
     </div>
+    <footer>
+        <span className="text-reset">Designed by Eva Terry</span>
+        <br />
+        <button
+          onClick={() =>
+            (window.location.href = "https://github.com/evajterry/CS260-React")
+          }
+        >
+          GitHub
+        </button>
+      </footer>
   </>
 );
 
