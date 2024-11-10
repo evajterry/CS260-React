@@ -16,19 +16,6 @@ function Profile() {
           <title>Profile</title>
           <link rel="icon" href="logo.ico" />
         </header>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/index.html">Log out</Link>
-            </li>
-            <li>
-              <Link to="/search.html">Search</Link>
-            </li>
-            <li>
-              <Link to="/about.html">About</Link>
-            </li>
-          </ul>
-        </nav>
         
         <div className="user-description">
           <header>

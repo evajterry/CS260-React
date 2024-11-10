@@ -8,21 +8,6 @@ function About() {
       <header>
         <title>About</title>
         <link rel="icon" href="logo.ico" />
-        <nav>
-          <ul>
-            <li>
-              <Link to="/index.html">Log out</Link>
-            </li>
-            {/* <li><Link to="/createAccount.html">Create Account</Link></li> */}
-            <li>
-              <Link to="/search.html">Search</Link>
-            </li>
-            <li>
-              <Link to="/profile.html">Profile</Link>
-            </li>
-            {/* <li><Link to="/about.html">About</Link></li> */}
-          </ul>
-        </nav>
       </header>
 
       <h1>

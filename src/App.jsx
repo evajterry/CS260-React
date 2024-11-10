@@ -94,6 +94,22 @@ function App() {
             </menu>
           </nav>
         </header>
+        
+        <Routes>
+          <Route
+            path='/'
+            element={
+              authState === AuthState.Authenticated
+                ? <Navigate to="/Search" />
+                : <LoginComponent userName={userName} authState={authState} onAuthChange={handleAuthChange} />
+            }
+          />
+          <Route path='/Search' element={<Search />} />
+          <Route path='/Profile' element={<Profile />} />
+          <Route path='/About' element={<About />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+
         <h1>Poetry Portfolio</h1>
         <div className="button-container">
           <button onClick={showLoginPopup}>Login</button>
@@ -131,20 +147,7 @@ function App() {
             <CreateAccountPopup hidePopups={hidePopups} />
           </>
         )}
-        <Routes>
-          <Route
-            path='/'
-            element={authState === AuthState.Authenticated ? (
-              <Navigate to="/Search" replace />
-            ) : (
-              <LoginComponent userName={userName} authState={authState} onAuthChange={handleAuthChange} />
-            )}
-          />
-          <Route path='/Search' element={<Search />} />
-          <Route path='/Profile' element={<Profile />} />
-          <Route path='/About' element={<About />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+
       </div>
     </BrowserRouter>
   );
