@@ -68,7 +68,7 @@ function Search() {
         <br />
         <button
           onClick={() =>
-            (window.location.href = "https://github.com/evajterry/CS260")
+            (window.location.href = "https://github.com/evajterry/CS260-React")
           }
         >
           GitHub

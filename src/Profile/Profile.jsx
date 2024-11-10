@@ -88,7 +88,7 @@ function Profile() {
         <footer>
           <span className="text-reset">Designed by Eva Terry</span>
           <br />
-          <button onClick={() => window.location.href="https://github.com/evajterry/CS260"}>
+          <button onClick={() => window.location.href="https://github.com/evajterry/CS260-React"}>
             GitHub
           </button>
         </footer>

@@ -18,18 +18,14 @@ import YeatsImage from "./images/william-yeats.jpeg";
 import AtwoodImage from "./images/margaret-atwood.webp";
 
 // import Search from './pages/Search'; 
-import { BrowserRouter as Router, Route, Routes, BrowserRouter, NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
 function App() {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showCreateAccount, setShowCreateAccount] = useState(false);
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
-  // need to define AuthState
   const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
   const [authState, setAuthState] = React.useState(currentAuthState);
-  // const navigate = useNavigate(); // Add useNavigate
-
-  // const toggleLoginPopup = () => setShowLogin(!showLogin);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
 
   const hidePopups = () => {
     setShowLogin(false);
@@ -55,18 +51,48 @@ function App() {
 
   return (
     <BrowserRouter>
+    
       {showLogin && (
-        <Login
+        <LoginComponent
           userName={userName}
           authState={authState}
-          onAuthChange={(userName, authState) => {
-            setAuthState(authState);
-            setUserName(userName);
-            setShowLogin(false); // Close popup on successful login/logout
-          }}
+          onAuthChange={handleAuthChange}
         />
       )}
-      <div>
+      <div className='body bg-dark text-light'>
+        <header className='container-fluid'>
+          <nav className='navbar fixed-top navbar-dark'>
+            <div className='navbar-brand'>
+              Poetry Portfolios<sup>&reg;</sup>
+            </div>
+            <menu className='navbar-nav'>
+              <li className='nav-item'>
+                <NavLink className='nav-link' to=''>
+                  Login
+                </NavLink>
+              </li>
+              {authState === AuthState.Authenticated && (
+                <li className='nav-item'>
+                  <NavLink className='nav-link' to='Search'>
+                    Search
+                  </NavLink>
+                </li>
+              )}
+              {authState === AuthState.Authenticated && (
+                <li className='nav-item'>
+                  <NavLink className='nav-link' to='Profile'>
+                    Profile
+                  </NavLink>
+                </li>
+              )}
+              <li className='nav-item'>
+                <NavLink className='nav-link' to='About'>
+                  About
+                </NavLink>
+              </li>
+            </menu>
+          </nav>
+        </header>
         <h1>Poetry Portfolio</h1>
         <div className="button-container">
           <button onClick={showLoginPopup}>Login</button>
@@ -104,18 +130,16 @@ function App() {
             <CreateAccountPopup hidePopups={hidePopups} />
           </>
         )}
-        <div>
-          <Routes>
-          <Route // change this to being a popup instead of a new page
-            path='/'
-            element={authState === AuthState.Authenticated ? <Navigate to="/Profile" /> : <Login userName={userName} authState={authState} onAuthChange={handleAuthChange} />}
+        <Routes>
+          <Route 
+            path='/' 
+            element={authState === AuthState.Authenticated ? <Navigate to="/Search" /> : <LoginComponent userName={userName} authState={authState} onAuthChange={handleAuthChange} />} 
           />
-            <Route path='/Search' element={<Search />} />
-            <Route path='/Profile' element={<Profile />} />
-            <Route path='/About' element={<About />} />
-            <Route path='*' element={<NotFound />} />
-          </Routes>
-        </div>
+          <Route path='/Search' element={<Search />} />
+          <Route path='/Profile' element={<Profile />} />
+          <Route path='/About' element={<About />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
       </div>
     </BrowserRouter>
   );
@@ -200,12 +224,12 @@ function NotFound() {
 
 export function LoginComponent({ userName, authState, onAuthChange }) {
   const navigate = useNavigate();
-
+   // fix handleLogin -- trying to navigate to search but we did it in popup.jsx file
   const handleLogin = () => {
     // Simulate authentication logic
     const updatedUserName = "John Doe";  // Replace with actual user input
     onAuthChange(updatedUserName, AuthState.Authenticated);
-    navigate('./Search');  // Redirect to the Search page after login
+    navigate('/Search');  // Redirect to the Search page after login
   };
 
   return (
