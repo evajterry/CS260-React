@@ -1,26 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./About.css";
+import yosemite from "../images/yosemite.png";
+import zion from "../images/zion.png";
 
 function About() {
   return (
-    <div>
-      <header>
-        <title>About</title>
-        <link rel="icon" href="logo.ico" />
-      </header>
-
-      <h1>
-        Poetry Portfolio<sup>®</sup>
-      </h1>
+    <div className="about-container">
+      <div className="image-header-container">
+        <div className="picture-box">
+          <img src={zion} alt="Zion" />
+        </div>
+        <header className="header">
+          <title>About</title>
+          <link rel="icon" href="logo.ico" />
+          <h1>Poetry Portfolio<sup>®</sup></h1>
+        </header>
+        <div className="picture-box1">
+          <img src={yosemite} alt="Yosemite" />
+        </div>
+      </div>
 
       <main>
-        <div id="picture" className="picture-box">
-          <img width="400px" src="images/yosemite.png" alt="Yosemite" />
-        </div>
-        <div id="picture1" className="picture-box1">
-          <img width="400px" src="images/zion.png" alt="Zion" />
-        </div>
         <p>
           Poetry is as immortal as the heart of man (@Wordsworth), and honestly,
           people don't read it like they used to. For me, poetry helps me feel in

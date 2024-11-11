@@ -10,37 +10,39 @@ const Popup = ({ hidePopups, onLogin }) => {
   const navigateToSearch = (event) => {
     event.preventDefault();
     console.log('Logging in...');
-    
-    // You can validate email and password here if needed
 
-    // Call the onLogin function passed from the parent to update the authState
-    onLogin(email); // Pass email as the login username
-    navigate('/Search'); // Navigate to the Search page
+    // Validate email and password if needed here
+
+    // Call the onLogin function to update the authState in App.js
+    onLogin(email); // Set email as the userName
+
+    // Close the popup and navigate to the Search page
+    hidePopups();
+    navigate('/Search');
   };
 
   return (
     <>
-      <div className="popup-overlay" id="overlay" onClick={hidePopups}></div>
+      <div className="popup-overlay" onClick={hidePopups}></div>
       <div className="popup" id="loginPopup">
         <span className="close" onClick={hidePopups}>&times;</span>
-        {/* <h2>Login</h2> */}
         <form onSubmit={navigateToSearch}>
           <div className="form-group">
             <span>@</span>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="your@email.com"
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
             <span>🔒</span>
-            <input 
-              type="password" 
-              placeholder="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
+            <input
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button type="submit" className="submit-btn">Access some poetry!</button>
