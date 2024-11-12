@@ -87,7 +87,7 @@ const App = () => {
         {showLogin && <Popup onLogin={onLogin} hidePopups={hidePopups} />}
         {showCreateAccount && <CreateAccountPopup hidePopups={hidePopups} />}
         <Routes>
-          <Route path="/" element={<Home showLogin={showLogin} showCreateAccount={showCreateAccount} hidePopups={hidePopups} showCreateAccountPopup={showCreateAccountPopup} />} /> {/* Pass props to Home */}
+          <Route path="/" element={<Home showLogin={showLogin} showCreateAccount={showCreateAccount} hidePopups={hidePopups} showLoginPopup={showLoginPopup} showCreateAccountPopup={showCreateAccountPopup} onLogin={onLogin} />} /> {/* Pass props to Home */}
           <Route path='/Search' element={<Search />} />
           <Route path='/Profile' element={<Profile />} />
           <Route path='/About' element={<About />} />

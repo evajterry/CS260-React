@@ -58,7 +58,7 @@ const CreateAccountPopup = ({ hidePopups }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="create-email">Email</label>
             <input
             type="email"
             id="email"

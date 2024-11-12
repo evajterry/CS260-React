@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Popup.css';
-import { Login } from './Login/login';
+// import { Login } from './Login/login';
 
 const Popup = ({ hidePopups, onLogin }) => {
   // const navigate = useNavigate();
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const handleChange = (e) => {
+
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(email);
+    console.log('Form submitted', {email, password});
+    onLogin(email, password);
     hidePopups();
     navigate('/Search');
   }
@@ -26,14 +33,24 @@ const Popup = ({ hidePopups, onLogin }) => {
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label>Email</label>
             <input
               type="email"
-              id="email"
+              name="login-email"  // Changed from id to name
               value={email}
-              onChange={handleChange}
+              onChange={handleEmailChange}
               required
-              />
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="login-password"  // Changed from id to name
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />
           </div>
           <button type="submit" className="submit-btn">Submit</button>
         </form>

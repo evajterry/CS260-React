@@ -9,7 +9,7 @@ import WordsworthImage from "../images/william_wordsworth.png";
 import YeatsImage from "../images/william-yeats.jpeg";
 import AtwoodImage from "../images/margaret-atwood.webp";
 
-const Home = ({ showLogin, showCreateAccount, hidePopups, showLoginPopup, showCreateAccountPopup }) => {
+const Home = ({ showLogin, showCreateAccount, hidePopups, showLoginPopup, showCreateAccountPopup, onLogin }) => {
   return (
     <div>
       <h1>Poetry Portfolio</h1>
