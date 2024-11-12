@@ -75,7 +75,7 @@ function Profile() {
         <section className="write-poem-section">
           <h2>Write a New Poem</h2>
           <div id="button-container">
-            <button id="write-poem" onClick={() => window.location.href = "postPoem.html"}>
+            <button id="write-poem" onClick={() => alert("This feature is coming soon")}>
               Go to Write Poem
             </button>
           </div>
