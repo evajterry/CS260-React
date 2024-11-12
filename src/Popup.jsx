@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Popup.css';
+import { Login } from './Login/login';
 
 const Popup = ({ hidePopups, onLogin }) => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Popup = ({ hidePopups, onLogin }) => {
           <div className="form-group">
             <span>@</span>
             <input
-              type="text"
+              type="email"
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -53,3 +54,4 @@ const Popup = ({ hidePopups, onLogin }) => {
 };
 
 export default Popup;
+

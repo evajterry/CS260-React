@@ -39,20 +39,29 @@ function Profile() {
         <section className="folders-section">
           <div id="folders-container">
             <div className="folder">
-              <h3>Nature</h3>
-              <button className="view-folder" onClick={() => window.location.href = "folder1.html"}>
+            <h3>Nature</h3>
+              <button
+                className="view-folder"
+                onClick={() => alert("This functionality will be available soon!")}
+              >
                 View Folder
               </button>
             </div>
             <div className="folder">
               <h3>Family</h3>
-              <button className="view-folder" onClick={() => window.location.href = "folder2.html"}>
+              <button
+                className="view-folder"
+                onClick={() => alert("This functionality will be available soon!")}
+              >
                 View Folder
               </button>
             </div>
             <div className="folder">
               <h3>Sonnets</h3>
-              <button className="view-folder" onClick={() => window.location.href = "folder3.html"}>
+              <button
+                className="view-folder"
+                onClick={() => alert("This functionality will be available soon!")}
+              >
                 View Folder
               </button>
             </div>
