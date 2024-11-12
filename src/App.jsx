@@ -7,7 +7,7 @@ import Home from './Home/Home';
 import About from './About/About.jsx';
 import Profile from './Profile/Profile';
 import Search from './Search/Search';
-import { Login } from './Login/login';
+// import { Login } from './Login/login';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter, NavLink, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
@@ -59,25 +59,25 @@ const App = () => {
             <menu className='navbar-nav'>
               <li className='nav-item'>
                 <NavLink className='nav-link' to=''>
-                  Login
+                  Logout
                 </NavLink>
               </li>
               {authState === AuthState.Authenticated && (
                 <li className='nav-item'>
-                  <NavLink className='nav-link' to='Search'>
+                  <NavLink className='nav-link' to='/Search'>
                     Search
                   </NavLink>
                 </li>
               )}
               {authState === AuthState.Authenticated && (
                 <li className='nav-item'>
-                  <NavLink className='nav-link' to='Profile'>
+                  <NavLink className='nav-link' to='/Profile'>
                     Profile
                   </NavLink>
                 </li>
               )}
               <li className='nav-item'>
-                <NavLink className='nav-link' to='About'>
+                <NavLink className='nav-link' to='/About'>
                   About
                 </NavLink>
               </li>
@@ -85,11 +85,9 @@ const App = () => {
           </nav>
         </header>
         {showLogin && <Popup onLogin={onLogin} hidePopups={hidePopups} />}
+        {showCreateAccount && <CreateAccountPopup hidePopups={hidePopups} />}
         <Routes>
-          <Route
-            path='/'
-            element={<Home />}
-          />
+          <Route path="/" element={<Home showLogin={showLogin} showCreateAccount={showCreateAccount} hidePopups={hidePopups} showCreateAccountPopup={showCreateAccountPopup} />} /> {/* Pass props to Home */}
           <Route path='/Search' element={<Search />} />
           <Route path='/Profile' element={<Profile />} />
           <Route path='/About' element={<About />} />

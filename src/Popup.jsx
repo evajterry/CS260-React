@@ -4,51 +4,41 @@ import './Popup.css';
 import { Login } from './Login/login';
 
 const Popup = ({ hidePopups, onLogin }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-  const navigateToSearch = (event) => {
-    event.preventDefault();
-    console.log('Logging in...');
-
-    // Validate email and password if needed here
-
-    // Call the onLogin function to update the authState in App.js
-    onLogin(email); // Set email as the userName
-
-    // Close the popup and navigate to the Search page
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onLogin(email);
     hidePopups();
     navigate('/Search');
-  };
+  }
 
   return (
     <>
       <div className="popup-overlay" onClick={hidePopups}></div>
-      <div className="popup" id="loginPopup">
+      <div className="popup">
         <span className="close" onClick={hidePopups}>&times;</span>
-        <form onSubmit={navigateToSearch}>
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <span>@</span>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
-              placeholder="your@email.com"
+              id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+              onChange={handleChange}
+              required
+              />
           </div>
-          <div className="form-group">
-            <span>🔒</span>
-            <input
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="submit-btn">Access some poetry!</button>
+          <button type="submit" className="submit-btn">Submit</button>
         </form>
       </div>
+      
     </>
   );
 };

@@ -9,60 +9,39 @@ import WordsworthImage from "../images/william_wordsworth.png";
 import YeatsImage from "../images/william-yeats.jpeg";
 import AtwoodImage from "../images/margaret-atwood.webp";
 
-const showLoginPopup = (event) => {
-  event.preventDefault();
-  setShowLogin(true);
-};
+const Home = ({ showLogin, showCreateAccount, hidePopups, showLoginPopup, showCreateAccountPopup }) => {
+  return (
+    <div>
+      <h1>Poetry Portfolio</h1>
+        <button onClick={showLoginPopup}>Login</button>
+        <button onClick={showCreateAccountPopup}>Create Account</button>
+        <p className="intro-poem">
+          Poets are the unacknowledged legislators of the 
+          world, according to Percy Shelley,
+          and as such, they should have a sufficient
+          place to put their work.
+        </p>
+        <div className="long-quote">
+            Read, write, revise, publish, share, discover. This is the place to unlock your inner poet. 
+        </div>
 
-const showCreateAccountPopup = (event) => {
-  event.preventDefault();
-  setShowCreateAccount(true);
-};
-
-const handleAuthChange = (userName, authState) => {
-  setUserName(userName);
-  setAuthState(authState);
-  setShowLogin(false);
-};
-
-const Home = ( showLogin, showCreateAccount, hidePopups ) => {
-    return (
-      <div>
-  <h1>Poetry Portfolio</h1>
-      <div className="button-container">
-          <button onClick={showLoginPopup}>Login</button>
-            <button onClick={showCreateAccountPopup}>Create Account</button>
-          </div>
-      <div className="card">
-          {/* Any additional content for the card can go here */}
-      </div>
-          <p className="intro-poem">
-            Poets are the unacknowledged legislators of the 
-            world, according to Percy Shelley,
-            and as such, they should have a sufficient
-            place to put their work.
-          </p>
-      <div className="long-quote">
-          Read, write, revise, publish, share, discover. This is the place to unlock your inner poet. 
-      </div>
-
-      {/* Photo Gallery Component */}
-      <div className="photo-gallery">
+        {/* Photo Gallery Component */}
+        <div className="photo-gallery">
           <PhotoGallery />
-      </div>
+        </div>
 
-      {/* Render popups if their respective state is true */}
-      {showLogin && (
+        {/* Render popups if their respective state is true */}
+        {showLogin && (
           <>
-          <div className="popup-overlay" onClick={hidePopups}></div>
-          <Popup hidePopups={hidePopups} />
+            <div className="popup-overlay" onClick={hidePopups}></div>
+            <Popup hidePopups={hidePopups} onLogin={onLogin} />
           </>
-      )}
-      
-      {showCreateAccount && (
+        )}
+        
+        {showCreateAccount && (
           <>
-          <div className="popup-overlay" onClick={hidePopups}></div>
-          <CreateAccountPopup hidePopups={hidePopups} />
+            <div className="popup-overlay" onClick={hidePopups}></div>
+            <CreateAccountPopup hidePopups={hidePopups} />
           </>
           )}
       </div>
