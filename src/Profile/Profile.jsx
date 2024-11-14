@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 
 function Profile() {
     const [username, setUsername] = useState("[Username]");
     const [bio, setBio] = useState("");
+    const navigate = useNavigate();
   
     const handleBioChange = (e) => setBio(e.target.value);
     const handleSaveBio = () => alert("Bio saved!");
@@ -75,7 +76,7 @@ function Profile() {
         <section className="write-poem-section">
           <h2>Write a New Poem</h2>
           <div id="button-container">
-            <button id="write-poem" onClick={() => alert("This feature is coming soon")}>
+            <button id="write-poem" onClick={() => navigate("../WritePoem")}>
               Go to Write Poem
             </button>
           </div>

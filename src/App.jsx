@@ -7,6 +7,7 @@ import Home from './Home/Home';
 import About from './About/About.jsx';
 import Profile from './Profile/Profile';
 import Search from './Search/Search';
+import WritePoem from "./WritePoem/WritePoem.jsx";
 // import { Login } from './Login/login';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -91,6 +92,7 @@ const App = () => {
           <Route path='/Search' element={<Search />} />
           <Route path='/Profile' element={<Profile />} />
           <Route path='/About' element={<About />} />
+          <Route path='/WritePoem' element={<WritePoem />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </div>

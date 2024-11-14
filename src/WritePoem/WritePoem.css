@@ -1,0 +1,332 @@
+/* General container styling */
+.container {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #ffffff; /* White background for the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Header styling */
+h1 {
+    font-size: 5rem;
+    color: #026502;
+    text-align: center; /* Centers the h1 */
+    margin-top: 150px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Title input field */
+textarea {
+    font-family: 'Times New Roman', Times, serif;
+    color:#000;
+    padding: 10px;
+    background-color: gainsboro;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 40%;
+    resize: none;
+}
+
+/* Title field specific */
+textarea[placeholder="Title"] {
+    color:#000;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 18px;
+    height: 40px; /* Adjust height for title */
+}
+
+/* Poem textarea styling */
+textarea[placeholder="Write your poem here..."] {
+    height: 200px;
+}
+
+/* Button styling */
+button {
+    background-color: #026502;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: flex-start;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #013901;
+}
+
+/* Rhyming tool section */
+.rhyming-tool {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.rhyming-tool h2 {
+    color: #026502;
+    margin-bottom: 10px;
+}
+
+/* Rhyming word input field */
+.rhyming-tool input {
+    background-color: gainsboro;
+    padding: 10px;
+    border: 1px solid #013901;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 60%;
+    margin-right: 10px;
+}
+
+/* Rhyming word button */
+.rhyming-tool button {
+    background-color: #026502;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    color:#000;
+}
+
+/* Button hover effect for rhymes */
+.rhyming-tool button:hover {
+    background-color: #007185;
+}
+
+/* Rhymes list styling */
+.rhyming-tool ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.rhyming-tool ul li {
+    padding: 5px 0;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    color:#000;
+}
+
+.rhyming-tool ul li:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Rhymes found message */
+.rhyming-tool p {
+    font-size: 16px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .rhyming-tool input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .rhyming-tool button {
+        width: 100%;
+    }
+
+    form {
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+/* Bio Section Styles */
+.bio-section {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bio-section h2 {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#bio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    background-color: #ccc;
+}
+
+/* Save Bio Button Styles */
+#save-bio {
+    padding: 10px 15px;
+    background-color: #026502;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#save-bio:hover {
+    background-color: #007185;
+}
+
+/* Folders Section Styles */
+.folders-section {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.folders-section h2 {
+    margin-bottom: 10px;
+}
+
+#folders-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.folder {
+    width: 150px;
+    background-color: #608f60;
+    padding: 15px 10px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+.folder h3 {
+    margin: 0;
+    font-size: 1.2em;
+    text-align: left;
+}
+
+.folder::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    width: 130px;
+    height: 15px;
+    background-color: #2b412b;
+    border-radius: 3px 3px 0 0;
+}
+
+/* Button Styles for Folder View */
+.view-folder {
+    padding: 5px 10px;
+    background-color: #375237;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.view-folder:hover {
+    background-color: #074e07;
+}
+
+/* Write Poem Section Styles */
+.write-poem-section {
+    margin-top: 40px;
+    align-content: center;
+}
+
+.write-poem-section h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#write-poem {
+    padding: 10px 15px;
+    background-color: #026502;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#write-poem:hover {
+    background-color: #013901;
+}
+
+/* Post Poem Link Styles */
+.post-poem {
+    font-family: Arial, Helvetica, sans-serif;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #026502;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.post-poem:hover {
+    background-color: #024102;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 50px;
+    background-color: #f5f5f5;
+}
+
+footer .text-reset {
+    color: #000;
+    display: block;
+    font-size: 1.2em;
+}
+
+footer small_button {
+    margin-top: 1px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+footer small_button:hover {
+    background-color: #555;
+}

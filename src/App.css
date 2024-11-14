@@ -51,6 +51,8 @@ button {
   margin-top: 10px; /* Add spacing between buttons */
   width: 100%;
   max-width: 300px; /* Optional max width */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button:hover {
