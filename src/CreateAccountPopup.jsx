@@ -68,6 +68,17 @@ const CreateAccountPopup = ({ hidePopups }) => {
             required
             />
           </div>
+          <div className="form-group">
+            <label htmlFor="create-password">Password</label>
+            <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            />
+          </div>
           <button type="submit" className="submit-btn">Submit</button>
         </form>
       </div>
