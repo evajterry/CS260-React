@@ -288,3 +288,32 @@ footer small_button {
 footer small_button:hover {
     background-color: #555; 
 }
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 12px; /* Add rounded corners to modal */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+.modal-header {
+    background-color: #026502; /* Set a matching background color */
+    color: white; /* White text */
+}
+
+.modal-title {
+    font-size: 1.5rem;
+}
+
+.modal-body {
+    font-size: 1rem;
+    color: #333; /* Slightly dark text */
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    border-radius: 5px; /* Consistent border-radius for buttons */
+}

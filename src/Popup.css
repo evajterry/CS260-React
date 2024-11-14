@@ -1,4 +1,5 @@
 /* Main popup styling */
+
 .popup {
     position: fixed; /* Fixed positioning for the popup */
     top: 50%; /* Center vertically */
@@ -60,7 +61,7 @@
   .form-group input[type="date"],
   .form-group input[type="password"],
   .form-group select {
-    width: 80%; /* Width of input fields */
+    width: 100%; /* Width of input fields */
     padding: 10px; /* Padding inside inputs */
     text-align: center; /* Center text */
     font-size: 1em; /* Font size */
