@@ -110,7 +110,7 @@ function Profile() {
         </footer>
 
         {showModal && selectedFolder && (
-          <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal show={showModal} onHide={handleCloseModal} className="modal-right">
           <Modal.Header>
             <Modal.Title>{selectedFolder.name}</Modal.Title>
           </Modal.Header>
@@ -128,8 +128,8 @@ function Profile() {
           </Modal>
         )}
         {showAddFolderModal && (
-          <Modal show={showAddFolderModal} onHide={handleCloseAddFolderModal}>
-            <Modal.Header closeButton>
+          <Modal show={showAddFolderModal} onHide={handleCloseAddFolderModal} className="modal-right">
+            <Modal.Header>
               <Modal.Title>Create a New Folder</Modal.Title>
             </Modal.Header>
             <Modal.Body>

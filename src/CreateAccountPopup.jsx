@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import './CreateAccountPopup';
+
 import { useNavigate } from 'react-router-dom';
+import { loginOrCreate, } from './Login/unauthenticated';
 
 const CreateAccountPopup = ({ hidePopups }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
   });
+  const [displayError, setDisplayError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,12 +22,28 @@ const CreateAccountPopup = ({ hidePopups }) => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // handle form submission
-    console.log('Form submitted:', formData);
-    hidePopups();
-    navigate('/Search');
+    const endpoint = '/api/auth/create'; // needs to be the account creation endpoint
+    const userData = {
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+    };
+    // navigate('/Search'); make sure we still navigate to search
+
+    const result = await loginOrCreate(endpoint, userData, setDisplayError)
+
+    if (result.success) {
+      console.log('Account created successfully:', userData);
+      hidePopups();
+      navigate('/Search');
+    } else {
+      alert('Error creating account: account may already exist', displayError);
+      console.log('Error creating account:', displayError);
+    }
   };
 
   return (
