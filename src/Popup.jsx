@@ -1,29 +1,54 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginOrCreate, } from './Login/unauthenticated';
 import './Popup.css';
 // import { Login } from './Login/login';
 
 const Popup = ({ hidePopups, onLogin }) => {
   // const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+  });
+  const [displayError, setDisplayError] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
+
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  // const handleEmailChange = (e) => {
+  //   setEmail(e.target.value);
+  // };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  }
+  // const handlePasswordChange = (e) => {
+  //   setPassword(e.target.value);
+  // }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted', {email, password});
-    onLogin(email, password);
+    const endpoint = '/api/auth/login';
+    const userData = {
+      email: formData.email,
+      password: formData.password,
+    }
+  
+  const result = await loginOrCreate(endpoint, userData, setDisplayError)
+
+  if (result.success) {
+    console.log('Logged into account:', userData);
     hidePopups();
     navigate('/Search');
+  } else {
+    alert('Error logging into account: account may not exist', displayError);
+    console.log('Error logging into account:', displayError);
   }
+  };
 
   return (
     <>
@@ -36,9 +61,9 @@ const Popup = ({ hidePopups, onLogin }) => {
             <label>Email</label>
             <input
               type="email"
-              name="login-email"  // Changed from id to name
-              value={email}
-              onChange={handleEmailChange}
+              name="email"  // Changed from id to name
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
@@ -46,9 +71,9 @@ const Popup = ({ hidePopups, onLogin }) => {
             <label>Password</label>
             <input
               type="password"
-              name="login-password"  // Changed from id to name
-              value={password}
-              onChange={handlePasswordChange}
+              name="password"  // Changed from id to name
+              value={formData.password}
+              onChange={handleChange}
               required
             />
           </div>
