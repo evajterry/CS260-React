@@ -63,3 +63,16 @@ For this deliverable, I made all of my website's HTML pretty using CSS. This is 
 - [x] Moved quotes and images from the HTML to separate image imports for React usage (EmilyImage, HeaneyImage, etc.).
 - [x] Used <></> (React Fragments) to group popup overlay and content without adding extra DOM elements.
 - [x] Replaced static content with dynamic routing and navigation links (<NavLink>) for Search, Profile, and About pages.
+
+## Startup Service
+- [x] **Simon React** deployed into production environment.
+- [x] **Github link** Link to GitHub startup repository prominently displayed on application's home page.
+- [x] **Vite**
+- [x] Created an HTTP service using Node.js and Express
+- [x] This deliverable is a basic Node.js application using the Express framework to provide a simple backend API for user authentication and management. The server handles user registration, login, logout, and retrieval of user information, all stored in-memory. It also serves static frontend content and a fallback default page.
+- [x] Frontend serves up using Express static middleware.
+- [x] Frontend calls third party service endpoints.
+- [x] Backend provides service endpoints
+- [x] Frontend calls service endpoints.
+- [x] Currently, the create account api is working. The login is nearly there.
+- [x] Also, the user data is stored in memory and will be lost when the server restarts. This will change in future deliverables when I add a database. 
