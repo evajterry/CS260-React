@@ -58,23 +58,36 @@ const App = () => {
               Poetry Portfolios<sup>&reg;</sup>
             </div>
             <menu className='navbar-nav'>
-              <li className='nav-item'>
-                <NavLink className='nav-link' to=''>
-                  Logout
-                </NavLink>
-              </li>
-              {authState === AuthState.Authenticated && (
-                <li className='nav-item'>
-                  <NavLink className='nav-link' to='/Search'>
+              {authState === AuthState.Authenticated ? (
+                <>
+                  <li className='nav-item'>
+                    <NavLink className='nav-link' to='/Search'>
                     Search
-                  </NavLink>
-                </li>
-              )}
-              {authState === AuthState.Authenticated && (
-                <li className='nav-item'>
-                  <NavLink className='nav-link' to='/Profile'>
+                    </NavLink>
+                  </li>
+                  <li className='nav-item'>
+                    <NavLink className='nav-link' to='/Profile'>
                     Profile
-                  </NavLink>
+                    </NavLink>
+                  </li>
+                  <li className='nav-item'>
+                    <NavLink
+                      className='nav-link'
+                      to='/'
+                      onClick={() => {
+                        setAuthState(AuthState.Unauthenticated);
+                        setUserName('');
+                      }}
+                    >
+                      Logout
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <li className='nav-item'>
+                  <a href="#" className='nav-link' onClick={showLoginPopup}>
+                    Login
+                  </a>
                 </li>
               )}
               <li className='nav-item'>

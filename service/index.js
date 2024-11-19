@@ -64,11 +64,6 @@ apiRouter.delete('/auth/logout', (req, res) => {
   res.status(204).end();
 });
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-  console.log('Server started')
-});
-
 apiRouter.get('/users', (_req, res) => {
   console.log(users)
   console.log("In users");
@@ -81,15 +76,27 @@ apiRouter.get('/users/:email', (req, res) => {
   const user = users[req.params.email];
   if (user) {
     res.send(user);
+    console.log(`Logging in ${user}`)
   } else {
     res.status(404).send({ msg: 'User not found' });
   }
+});
+
+// Default error handler
+app.use(function (err, req, res, next) {
+  res.status(500).send({ type: err.name, message: err.message });
 });
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
+
+
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
 
 apiRouter.get('/status', (req, res) => {
   res.send({ msg: 'API is working!' });
