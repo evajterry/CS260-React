@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginOrCreate, } from './Login/unauthenticated';
 
-const CreateAccountPopup = ({ hidePopups }) => {
+const CreateAccountPopup = ({ hidePopups, onAccountCreated }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -39,6 +39,8 @@ const CreateAccountPopup = ({ hidePopups }) => {
     if (result.success) {
       console.log('Account created successfully:', userData);
       hidePopups();
+      console.log('onAccountCreated:', onAccountCreated, hidePopups);
+      onAccountCreated(formData.email); // Pass the user name to update the header
       navigate('/Search');
     } else {
       alert('Error creating account: account may already exist', displayError);

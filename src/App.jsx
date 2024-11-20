@@ -48,6 +48,12 @@ const App = () => {
     hidePopups();
   };
 
+  const onAccountCreated = (userName) => {
+    setUserName(userName);
+    setAuthState(AuthState.Authenticated);
+    hidePopups();
+  };
+
 
   return (
     <BrowserRouter>
@@ -58,7 +64,7 @@ const App = () => {
               Poetry Portfolios<sup>&reg;</sup>
             </div>
             <menu className='navbar-nav'>
-              {authState === AuthState.Authenticated ? (
+              {authState === AuthState.Authenticated ? ( 
                 <>
                   <li className='nav-item'>
                     <NavLink className='nav-link' to='/Search'>
@@ -99,9 +105,9 @@ const App = () => {
           </nav>
         </header>
         {showLogin && <Popup onLogin={onLogin} hidePopups={hidePopups} />}
-        {showCreateAccount && <CreateAccountPopup hidePopups={hidePopups} />}
+        {showCreateAccount && <CreateAccountPopup hidePopups={hidePopups} accountCreation={onAccountCreated} />}
         <Routes>
-          <Route path="/" element={<Home showLogin={showLogin} showCreateAccount={showCreateAccount} hidePopups={hidePopups} showLoginPopup={showLoginPopup} showCreateAccountPopup={showCreateAccountPopup} onLogin={onLogin} />} /> {/* Pass props to Home */}
+          <Route path="/" element={<Home showLogin={showLogin} showCreateAccount={showCreateAccount} hidePopups={hidePopups} showLoginPopup={showLoginPopup} showCreateAccountPopup={showCreateAccountPopup} onLogin={onLogin} onAccountCreated={onAccountCreated} />} /> {/* Pass props to Home */}
           <Route path='/Search' element={<Search />} />
           <Route path='/Profile' element={<Profile />} />
           <Route path='/About' element={<About />} />

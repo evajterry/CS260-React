@@ -9,7 +9,7 @@ import WordsworthImage from "../images/william_wordsworth.png";
 import YeatsImage from "../images/william-yeats.jpeg";
 import AtwoodImage from "../images/margaret-atwood.webp";
 
-const Home = ({ showLogin, showCreateAccount, hidePopups, showLoginPopup, showCreateAccountPopup, onLogin }) => {
+const Home = ({ showLogin, showCreateAccount, hidePopups, showLoginPopup, showCreateAccountPopup, onLogin, onAccountCreated }) => {
   return (
     <div>
       <h1>Poetry Portfolio</h1>
@@ -41,7 +41,8 @@ const Home = ({ showLogin, showCreateAccount, hidePopups, showLoginPopup, showCr
         {showCreateAccount && (
           <>
             <div className="popup-overlay" onClick={hidePopups}></div>
-            <CreateAccountPopup hidePopups={hidePopups} />
+            <CreateAccountPopup hidePopups={hidePopups}
+            onAccountCreated={onAccountCreated} />
           </>
           )}
       </div>

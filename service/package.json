@@ -8,10 +8,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "@apiverve/wordrhymes": "^1.1.5",
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "mongodb": "^6.10.0",
     "uuid": "^11.0.3"
-  }
+  },
+  "description": ""
 }

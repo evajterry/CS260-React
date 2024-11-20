@@ -17,6 +17,9 @@ function Profile() {
     const [selectedFolder, setSelectedFolder] = useState(null);
     const [showAddFolderModal, setShowAddFolderModal] = useState(false);
     const [newFolderName, setNewFolderName] = useState("");
+    const [showPoemPopup, setShowPoemPopup] = useState(false);
+    const [selectedPoem, setSelectedPoem] = useState("");
+
 
     const navigate = useNavigate();
   

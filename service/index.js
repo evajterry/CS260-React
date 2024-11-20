@@ -19,9 +19,11 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
+
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
     const user = users[req.body.email];
+    console.log("Anotther fdsfsdfs")
     if (user) {
       res.status(409).send({ msg: 'Existing user' });
     } else {
@@ -36,6 +38,7 @@ apiRouter.post('/auth/create', async (req, res) => {
         return
       }
       users[newUser.email] = newUser;
+      console.log("fdsfsdfsfds")
       console.log(users)
       res.send({ token: newUser.token });
       console.log('User created')
