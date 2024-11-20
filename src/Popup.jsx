@@ -43,6 +43,7 @@ const Popup = ({ hidePopups, onLogin }) => {
   if (result.success) {
     console.log('Logged into account:', userData);
     hidePopups();
+    onLogin(formData.email);
     navigate('/Search');
   } else {
     alert('Error logging into account: account may not exist', displayError);
