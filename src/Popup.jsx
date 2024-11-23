@@ -7,8 +7,8 @@ import './Popup.css';
 const Popup = ({ hidePopups, onLogin }) => {
   // const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    email: '',
+    password: '',
   });
   const [displayError, setDisplayError] = useState(null);
 

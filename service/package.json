@@ -12,9 +12,11 @@
     "@apiverve/wordrhymes": "^1.1.5",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",
-    "mongodb": "^6.10.0",
+    "mongodb": "^6.11.0",
+    "mongood": "^0.0.5",
     "uuid": "^11.0.3"
   },
   "description": ""

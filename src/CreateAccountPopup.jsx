@@ -11,16 +11,15 @@ const CreateAccountPopup = ({ hidePopups, onAccountCreated }) => {
     password: '',
   });
   const [displayError, setDisplayError] = useState(null);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData({
       ...formData,
       [name]: value,
     });
   };
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

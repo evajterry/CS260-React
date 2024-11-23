@@ -1,57 +1,74 @@
 const { MongoClient } = require('mongodb');
-const bcrypt = require('bcrypt');
-const uuid = require('uuid');
 const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
+const dbName = 'poetryportfolios';
 
-const db = client.db('rental');
+let db;
+let userCollection;
 
-(async function testConnection() {
-  await client.connect();
-  await db.command({ ping: 1 });
-})().catch((ex) => {
-  console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-  process.exit(1);
-});
+// Connect to the database and initialize collections
+async function connectToDatabase() {
+  if (!db) {
+    try {
+      console.log('Connecting to the database...');
+      await client.connect();
+      db = client.db(dbName);
+      userCollection = db.collection('users');
+      console.log('Database connection successful!');
+    } catch (error) {
+      console.error('Failed to connect to the database:', error.message);
+      process.exit(1); // Exit on critical failure
+    }
+  }
+  return {db, userCollection};
+}
 
-// const db = client.db('simon');
-// const userCollection = db.collection('user');
+// Export functions that interact with the database
+async function getUser(email) {
+  await connectToDatabase();
+  return userCollection.findOne({ email });
+}
 
-// // This will asynchronously test the connection and exit the process if it fails
-// (async function testConnection() {
-//   await client.connect();
-//   await db.command({ ping: 1 });
-// })().catch((ex) => {
-//   console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-//   process.exit(1);
-// });
+async function updateUserBio(email, bio) {
+  await connectToDatabase();
+  return userCollection.updateOne(
+    { email },
+    { $set: { bio } },
+    { upsert: true }
+  );
+}
 
-// function getUser(email) {
-//   return userCollection.findOne({ email: email });
-// }
+async function createUser(user) {
+  await connectToDatabase();
+  return userCollection.insertOne(user);
+}
 
-// function getUserByToken(token) {
-//   return userCollection.findOne({ token: token });
-// }
+const updateUserToken = async (email, token) => {
+  // Your code to update the user's token in the database, e.g.:
+  try {
+    const db = client.db('poetryportfolios');
+    console.log(db);
+    const usersCollection = db.collection('users');
+    console.log(email, token);
+    console.log(usersCollection);
+    const result = await usersCollection.updateOne(
+      { email: email }, 
+      { $set: { token: token } }
+    );
+    return result;
+  } catch (error) {
+    console.error('Error updating user token:', error);
+    throw error;  // Rethrow the error so it can be caught in your route handler
+  }
 
-// async function createUser(email, password) {
-//   // Hash the password before we insert it into the database
-//   const passwordHash = await bcrypt.hash(password, 10);
+};
 
-//   const user = {
-//     email: email,
-//     password: passwordHash,
-//     token: uuid.v4(),
-//   };
-//   await userCollection.insertOne(user);
-
-//   return user;
-// }
-
-// module.exports = {
-//   getUser,
-//   getUserByToken,
-//   createUser,
-// };
+module.exports = {
+  connectToDatabase,
+  getUser,
+  updateUserBio,
+  createUser,
+  updateUserToken
+};

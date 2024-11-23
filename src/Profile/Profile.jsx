@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -24,7 +24,27 @@ function Profile() {
     const navigate = useNavigate();
   
     const handleBioChange = (e) => setBio(e.target.value);
-    const handleSaveBio = () => alert("Bio saved!");
+
+    const handleSaveBio = async () => {
+      const email = "user@example.com"; // Replace with the logged-in user's email
+      try {
+        const response = await fetch(`/api/users/${email}/bio`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bio }),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.msg);
+        } else {
+          alert('Failed to save bio');
+        }
+      } catch (error) {
+        console.error('Error saving bio:', error);
+        alert('An error occurred while saving your bio.');
+      }
+    };    
 
     const handleViewFolder = (folder) => {
       setSelectedFolder(folder);
@@ -48,6 +68,25 @@ function Profile() {
         alert("Please enter a folder name.");
       }
     }
+
+    useEffect(() => {
+      const fetchBio = async () => {
+        const email = "user@example.com"; // Replace with the logged-in user's email
+        try {
+          const response = await fetch(`/api/users/${email}/bio`);
+          if (response.ok) {
+            const data = await response.json();
+            setBio(data.bio);
+          } else {
+            console.error("Failed to fetch bio");
+          }
+        } catch (error) {
+          console.error("Error fetching bio:", error);
+        }
+      };
+  
+      fetchBio();
+    }, []); // Empty dependency array ensures this runs only once when the component mounts
   
     return (
     
@@ -60,18 +99,16 @@ function Profile() {
         <div className="user-description">
           <header>
             <h1>User Profile</h1>
-            <p>Welcome, <span id="user-name">{username}</span></p>
+            <p>Welcome!</p>
           </header>
           
           <section className="bio-section">
             <h2>About Me</h2>
             <textarea
-              id="bio"
-              placeholder="Write a short bio about yourself..."
-              rows="4"
               value={bio}
-              onChange={handleBioChange}
-            ></textarea>
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="Tell us about yourself..."
+            />
             <button id="save-bio" onClick={handleSaveBio}>Save Bio</button>
           </section>
         </div>

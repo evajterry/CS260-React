@@ -1,10 +1,7 @@
 const express = require('express');
 const uuid = require('uuid');
+const { getUser, updateUserBio, createUser, connectToDatabase, updateUserToken } = require('./database');
 const app = express();
-
-// The scores and users are saved in memory and disappear whenever the service is restarted.
-let users = {};
-
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -20,43 +17,109 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 
-// CreateAuth a new user
-apiRouter.post('/auth/create', async (req, res) => {
-    const user = users[req.body.email];
-    console.log("Anotther fdsfsdfs")
-    if (user) {
-      res.status(409).send({ msg: 'Existing user' });
-    } else {
-      const newUser = { firstName: req.body.firstName, 
-        lastName: req.body.lastName, 
-        email: req.body.email, 
-        password: req.body.password, 
-        token: uuid.v4() 
-      };
-      if (newUser.email in users) {
-        res.status(409).send({ msg: 'Existing user' });
-        return
-      }
-      users[newUser.email] = newUser;
-      console.log("fdsfsdfsfds")
-      console.log(users)
-      res.send({ token: newUser.token });
-      console.log('User created')
+// Connect to the database when the app starts
+connectToDatabase().then(() => {
+  console.log('Database connected!');
+}).catch(console.error);
+
+// Save or update a user's bio
+apiRouter.post('/users/:email/bio', async (req, res) => {
+  const email = req.params.email;
+  const { bio } = req.body;
+
+  try {
+    const user = await getUser(email);
+    if (!user) {
+      res.status(404).send({ msg: 'User not found' });
+      return;
     }
-  });
+
+    await updateUserBio(email, bio);
+    res.send({ msg: 'Bio updated successfully!', bio });
+  } catch (error) {
+    console.error('Error updating bio:', error);
+    res.status(500).send({ msg: 'Failed to update bio' });
+  }
+});
+
+// Get a user's bio
+apiRouter.get('/users/:email/bio', async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await getUser(email);
+    if (!user) {
+      res.status(404).send({ msg: 'User not found' });
+      return;
+    }
+
+    res.send({ email: user.email, bio: user.bio || '' });
+  } catch (error) {
+    console.error('Error fetching user bio:', error);
+    res.status(500).send({ msg: 'Failed to fetch bio' });
+  }
+});
+
+// Create a new user
+apiRouter.post('/auth/create', async (req, res) => {
+  const newUser = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password, // Ideally, hash this with bcrypt before saving
+    token: uuid.v4(),
+  };
+
+  try {
+    const existingUser = await getUser(newUser.email);
+    if (existingUser) {
+      res.status(409).send({ msg: 'Existing user' });
+      return;
+    }
+
+    await createUser(newUser);
+    res.send({ token: newUser.token });
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).send({ msg: 'Failed to create user' });
+  }
+});
   
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-  const user = users[req.body.email];
-  if (user) {
-    if (req.body.password === user.password) {
-      user.token = uuid.v4();
-      res.send({ token: user.token });
-      return;
+  const { email, password } = req.body;
+  console.log('updateUserToken:', updateUserToken);
+
+  try {
+    const user = await getUser(email);
+    console.log("user", user);
+    if (!user) {
+      return res.status(401).send({ msg: 'User not found' });
     }
+
+    if (password === user.password) {
+      const token = uuid.v4();
+      await updateUserToken(user.email, token); // Ensure this function exists and is imported correctly
+      res.send({ token });
+    } else {
+      res.status(401).send({ msg: 'Incorrect password' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).send({ msg: 'Failed to log in' });
   }
-  res.status(401).send({ msg: 'Unauthorized' });
 });
+
+
+apiRouter.get('/users', async (_req, res) => {
+  try {
+    const usersList = await userCollection.find().toArray();
+    res.send(usersList);
+  } catch (error) {
+    res.status(500).send({ msg: 'Failed to fetch users' });
+  }
+});
+
   
 // DeleteAuth logout a user
 apiRouter.delete('/auth/logout', (req, res) => {
@@ -74,16 +137,16 @@ apiRouter.get('/users', (_req, res) => {
 });
 
 
-// Get a user by email
-apiRouter.get('/users/:email', (req, res) => {
-  const user = users[req.params.email];
+apiRouter.get('/users/:email', async (req, res) => {
+  const email = req.params.email;
+  const user = await getUser(email); // This will fetch from MongoDB
   if (user) {
     res.send(user);
-    console.log(`Logging in ${user}`)
   } else {
     res.status(404).send({ msg: 'User not found' });
   }
 });
+
 
 // Default error handler
 app.use(function (err, req, res, next) {
