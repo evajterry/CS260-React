@@ -1,6 +1,6 @@
 const express = require('express');
 const uuid = require('uuid');
-const { getUser, updateUserBio, createUser, connectToDatabase, updateUserToken } = require('./database');
+const { getUser, updateUserBio, createUser, connectToDatabase, updateUserToken, updateUserPoems } = require('./database');
 const app = express();
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
@@ -22,68 +22,18 @@ connectToDatabase().then(() => {
   console.log('Database connected!');
 }).catch(console.error);
 
-apiRouter.post('/api/auth/add-folder', async (req, res) => {
-  const { email, folderName } = req.body;
 
-  try {
-    // Get the user by email
-    const user = await getUser(email);
-    if (!user) {
-      return res.status(404).send({ msg: 'User not found' });
-    }
+// app.post('/api/poems', (req, res) => {
+//   const { title, poem } = req.body;
 
-    // Check if folder already exists
-    if (user.folders.includes(folderName)) {
-      return res.status(409).send({ msg: 'Folder already exists' });
-    }
+//   if (!title || !poem) { 
+//       return res.status(400).send("All fields are required.");
+//   }
 
-    // Add the new folder to the user's folder array
-    user.folders.push(folderName);
-    await updateUserBio(email, user); // Or update the user with the new folders
-
-    res.send({ msg: 'Folder created successfully', folders: user.folders });
-  } catch (error) {
-    console.error('Error adding folder:', error);
-    res.status(500).send({ msg: 'Failed to create folder' });
-  }
-});
-
-
-// app.get('/api/folders', (req, res) => {
-//   const folders = ["Nature", "Family", "Sonnets"];
-//   res.json({ folders });
+//   // Save poem logic here
+//   console.log(`Poem "${title}" saved!"`);
+//   res.status(200).send("Poem saved successfully.");
 // });
-
-app.post('/api/poems', (req, res) => {
-  const { title, poem, folder } = req.body;
-
-  if (!title || !poem || !folder) {
-      return res.status(400).send("All fields are required.");
-  }
-
-  // Save poem logic here
-  console.log(`Poem "${title}" saved to folder "${folder}"`);
-  res.status(200).send("Poem saved successfully.");
-});
-
-apiRouter.post('/users/:email/folders', async (req, res) => {
-  const email = req.params.email;
-  const { folderName } = req.body;
-
-  try {
-    const user = await getUser(email);
-    if (!user) {
-      res.status(404).send({ msg: 'User not found' });
-      return;
-    }
-
-    await updateUserFolder(email, folder);
-    res.send({ msg: 'Folder added successfully!', folder });
-  } catch (error) {
-    console.error('Error updating folder:', error);
-    res.status(500).send({ msg: 'Failed to update folder' });
-  }
-});
 
 // Save or update a user's bio
 apiRouter.post('/users/:email/bio', async (req, res) => {
@@ -102,6 +52,45 @@ apiRouter.post('/users/:email/bio', async (req, res) => {
   } catch (error) {
     console.error('Error updating bio:', error);
     res.status(500).send({ msg: 'Failed to update bio' });
+  }
+});
+
+// Save a poem
+apiRouter.post('/users/:email/poems', async (req, res) => {
+  const email = req.params.email;
+  const { poem } = req.body;
+
+  try {
+    const user = await getUser(email);
+    if (!user) {
+      res.status(404).send({ msg: 'User not found' });
+      return;
+    }
+
+    await updateUserPoems(email, poem);
+    res.send({ msg: 'Poem added successfully!', poem });
+  } catch (error) {
+    console.error('Error saving poem:', error);
+    res.status(500).send({ msg: 'Failed to save poem' });
+  }
+});
+
+// Get a user's poems
+apiRouter.get('/users/:email/poems', async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await getUser(email);
+    console.log("user: ", user);
+    if (!user) {
+      res.status(404).send({ msg: 'User not found' });
+      return;
+    }
+
+    res.send({ email: user.email, poems: user.poems || '' }); // maybe this should be not poems but poem
+  } catch (error) {
+    console.error('Error fetching user poems:', error);
+    res.status(500).send({ msg: 'Failed to fetch poems' });
   }
 });
 
@@ -132,7 +121,7 @@ apiRouter.post('/auth/create', async (req, res) => {
     password: req.body.password, // Ideally, hash this with bcrypt before saving
     token: uuid.v4(),
     bio: '',
-    folders: [],
+    poems: [],
   };
 
   try {

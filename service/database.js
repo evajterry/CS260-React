@@ -40,14 +40,15 @@ async function updateUserBio(email, bio) {
   );
 }
 
-async function updateUserFolder(email, folder) {
+async function updateUserPoems(email, poem) {
   await connectToDatabase();
   return userCollection.updateOne(
-    { email },
-    { $set: { folder } },
+    { email }, 
+    { $push: { poems: poem } },
     { upsert: true }
-  );
-}
+  )
+};
+
 
 async function createUser(user) {
   await connectToDatabase();
@@ -79,5 +80,6 @@ module.exports = {
   getUser,
   updateUserBio,
   createUser,
-  updateUserToken
+  updateUserToken, 
+  updateUserPoems,
 };

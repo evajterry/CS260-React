@@ -1,24 +1,16 @@
 import "./WritePoem.css";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 function WritePoem() {
     const [imageUrl, setImageUrl] = React.useState('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=');
-    const [quote, setQuote] = React.useState('Loading...');
-    const [quoteAuthor, setQuoteAuthor] = React.useState('unknown');
-
     const [poem, setPoem] = useState("");
-    const [title, setTitle] = useState("");
-    const [rhymeWord, setRhymeWord] = useState("");
-    const [rhymes, setRhymes] = useState([]);
     const [error, setError] = useState("");
-    const [folders, setFolders] = useState([]); // To store folder list
-    const [selectedFolder, setSelectedFolder] = useState(""); // Selected folder
-
     const handlePoemChange = (e) => setPoem(e.target.value);
-    const handleTitleChange = (e) => setTitle(e.target.value);
-    const handleRhymeWordChange = (e) => setRhymeWord(e.target.value);
-    const handleFolderChange = (e) => setSelectedFolder(e.target.value);
+
+    const email = localStorage.getItem("userEmail");
+    if (!email) {
+      console.error("No email found. User might not be logged in.");
+    }
 
     React.useEffect(() => {
         const random = Math.floor(Math.random() * 1000);
@@ -33,146 +25,88 @@ function WritePoem() {
             setImageUrl(apiUrl);
           })
           .catch();
-    
-        fetch('https://quote.cs260.click')
-          .then((response) => response.json())
-          .then((data) => {
-            setQuote(data.quote);
-            setQuoteAuthor(data.author);
-          })
-          .catch();
       }, []);
 
-    useEffect(() => {
-        // Fetch folder list when component loads
-        const fetchFolders = async () => {
-            try {
-                const response = await axios.get("/api/folders");
-                if (response.data && response.data.folders) {
-                    setFolders(response.data.folders);
-                }
-            } catch (error) {
-                console.error("Error fetching folders:", error);
-                setError("Error fetching folders. Please try again.");
-            }
-        };
-
-        fetchFolders();
-    }, []);
-
-    // const API_URL = '/api/api.html';
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     if (!poem) {
+    //       setError("Please write a poem before submitting.");
+    //       return;
+    //     }
+    
+    //     try {
+    //       const response = await axios.post(`/api/users/${email}/poems`, { poem });
+    
+    //       if (response.status === 200) {
+    //         console.log("Poem saved successfully");
+    //         setPoem(""); // Clear the input
+    //         setError(""); // Clear any error
+    //       } else {
+    //         setError("Failed to save the poem. Please try again.");
+    //       }
+    //     } catch (error) {
+    //       console.error("Error saving poem:", error);
+    //       setError("Error saving poem. Please try again.");
+    //     }
+    //   };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!title || !poem || !selectedFolder) {
-            setError("Please fill in all fields and select a folder.");
-            return;
+    
+        if (!poem) {
+          setError("Please write a poem before submitting.");
+          return;
         }
+    
+        await handleSavePoem(); // Save the poem
+        setPoem(""); // Clear the input field
+        setError(""); // Clear any error
+      };
 
+    const handleSavePoem = async () => {
+        
         try {
-            const response = await axios.post("/api/poems", {
-                title,
-                poem,
-                folder: selectedFolder,
+            console.log("Saving poem:", poem);
+            console.log("Email:", email);
+            
+            const response = await fetch(`/api/users/${email}/poems`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ poem: poem }),
             });
-
-            if (response.status === 200) {
-                console.log("Poem saved successfully");
-                setPoem("");
-                setTitle("");
-                setSelectedFolder("");
-                setError("");
+            console.log(response);
+    
+            if (response.ok) {
+                const data = await response.json();
+                alert(data.msg || "Poem saved successfully!");
             } else {
-                setError("Failed to save the poem. Please try again.");
+                const errorData = await response.text();
+                console.error("Server error response:", errorData);
+                alert("Failed to save the poem.");
             }
         } catch (error) {
             console.error("Error saving poem:", error);
-            setError("Error saving poem. Please try again.");
+            alert("An error occurred while saving the poem.");
         }
     };
-
-    const fetchRhymes = async () => {
-        if (!rhymeWord) {
-            setError("Please enter a word to rhyme.");
-            return;
-        }
     
-        setError(""); // Clear any previous error
-    
-        try {
-            // Call your backend API
-            const response = await axios.get(`/api/rhymes`, {
-                params: { word: rhymeWord },
-            });
-    
-            // Update state with rhymes
-            if (response.data && response.data.rhymes) {
-                setRhymes(response.data.rhymes);
-            } else {
-                setError("No rhymes found.");
-            }
-        } catch (error) {
-            console.error("Error fetching rhymes:", error);
-            setError("Error fetching rhymes. Please try again.");
-        }
-    };
-
     return (
         <div>
             <h1>Write a New Poem</h1>
             <form onSubmit={handleSubmit}>
                 <textarea
-                    placeholder="Title"
-                    rows="1"
-                    value = {title}
-                    onChange={handleTitleChange}
+                placeholder="Write your poem here..."
+                rows="8"
+                value={poem}
+                onChange={handlePoemChange}
                 ></textarea>
 
-                <textarea
-                    placeholder="Write your poem here..."
-                    rows="8"
-                    value = {poem}
-                    onChange={handlePoemChange}
-                ></textarea>
-
-                <select value={selectedFolder} onChange={handleFolderChange}>
-                    <option value="">Select a folder</option>
-                    {folders.map((folder, index) => (
-                        <option key={index} value={folder}>
-                            {folder}
-                        </option>
-                    ))}
-
-                </select>
-                <button type="submit"> Submit Poem</button>
+                <button type="submit">Save Poem</button>
             </form>
             <div id='picture' className='picture-box'>
                 <img src={imageUrl} alt='stock background' />
             </div>
-            <div className="rhyming-tool">
-                <h2>Find Rhymes</h2>
-                <input
-                    type="text"
-                    placeholder="Enter a word to rhyme"
-                    value={rhymeWord}
-                    onChange={handleRhymeWordChange}
-                />
-                <button onClick={fetchRhymes}>Get Rhymes</button>
-
-                {/* Display error if there is one */}
-                {error && <p style={{ color: "red" }}>{error}</p>}
-
-                {/* Display rhymes */}
-                <ul>
-                    {rhymes.length > 0 ? (
-                        rhymes.map((word, index) => <li key={index}>{word}</li>)
-                    ) : (
-                        <p>No rhymes found.</p>
-                    )}
-                </ul>
-            </div>
-
         </div>
     );
 }
