@@ -20,13 +20,16 @@ function Profile() {
     const [showPoemPopup, setShowPoemPopup] = useState(false);
     const [selectedPoem, setSelectedPoem] = useState("");
 
-
     const navigate = useNavigate();
+
+    const email = localStorage.getItem("userEmail");
+    if (!email) {
+      console.error("No email found. User might not be logged in.");
+    }
   
     const handleBioChange = (e) => setBio(e.target.value);
 
     const handleSaveBio = async () => {
-      const email = "user@example.com"; // Replace with the logged-in user's email
       try {
         const response = await fetch(`/api/users/${email}/bio`, {
           method: 'POST',
@@ -44,11 +47,17 @@ function Profile() {
         console.error('Error saving bio:', error);
         alert('An error occurred while saving your bio.');
       }
-    };    
+    };
 
     const handleViewFolder = (folder) => {
+      console.log('Viewing folder:', folder);
       setSelectedFolder(folder);
       setShowModal(true);
+    };
+
+    const handlePoemClick = (poem) => {
+      setSelectedPoem(poem);
+      setShowPoemPopup(true);  // Ensure the popup is shown when a poem is clicked
     };
 
     const handleCloseModal = () => {
@@ -59,19 +68,54 @@ function Profile() {
     const handleOpenAddFolderModal = () => setShowAddFolderModal(true);
     const handleCloseAddFolderModal = () => setShowAddFolderModal(false);
 
-    const handleCreateFolder = () => {
-      if (newFolderName) {
-        setFolders([...folders, { name: newFolderName, poems: [] }]);
-        setNewFolderName("");
-        handleCloseAddFolderModal();
-      } else {
-        alert("Please enter a folder name.");
+    const handleCreateFolder = async (e) => {
+      // If e.target is a DOM element (like an HTMLButtonElement), avoid including it in state
+      const userEmail = localStorage.getItem('userEmail'); // Adjust if stored differently
+      if (!userEmail) {
+        alert('User email not found.');
+        return;
       }
-    }
+    
+      console.log(e.target); // This could cause the circular reference issue
+    
+      const folderData = {
+        email: userEmail,
+        folderName: newFolderName
+      };
+      const response = await fetch('/api/auth/add-folder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(folderData)
+      });
+      const result = await response.json();
+      console.log(result);
+    };
+
+    useEffect(() => {
+      const fetchFolders = async () => {
+        try {
+          const response = await fetch(`/api/users/${email}/folders`);
+          if (response.ok) {
+            const data = await response.json();
+            setFolders(data.folder);
+          } else {
+            console.error("Failed to fetch folder");
+          }
+        } catch (error) {
+          console.error("Error fetching folder:", error);
+        }
+      };
+  
+      fetchFolders();
+    }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+    // Call this function when the profile page loads
+    React.useEffect(() => {
+      fetchUserFolders();
+    }, []);
 
     useEffect(() => {
       const fetchBio = async () => {
-        const email = "user@example.com"; // Replace with the logged-in user's email
         try {
           const response = await fetch(`/api/users/${email}/bio`);
           if (response.ok) {
@@ -89,7 +133,6 @@ function Profile() {
     }, []); // Empty dependency array ensures this runs only once when the component mounts
   
     return (
-    
       <div>
         <header>
           <title>Profile</title>
@@ -106,7 +149,7 @@ function Profile() {
             <h2>About Me</h2>
             <textarea
               value={bio}
-              onChange={(e) => setBio(e.target.value)}
+              onChange={handleBioChange}
               placeholder="Tell us about yourself..."
             />
             <button id="save-bio" onClick={handleSaveBio}>Save Bio</button>
@@ -117,20 +160,22 @@ function Profile() {
           <div id="folders-container">
             {folders.map((folder, index) => (
               <div className="folder" key={index}>
-                <h3>{folder.name}</h3>
+                <h3>{folder.name}</h3> {/* Display the folder name */}
                 <button
-                className="view-folder"
-                onClick={() => handleViewFolder(folder)}
+                  className="view-folder"
+                  onClick={() => handleViewFolder(folder)} // Assuming handleViewFolder is a function to view a folder
                 >
                   View Folder
                 </button>
               </div>
             ))}
           </div>
+
           <div id="button-container">
-            <button id="new-folder" onClick={handleOpenAddFolderModal}> Create new folder </button>
+            <button id="new-folder" onClick={handleOpenAddFolderModal}>Create new folder</button>
           </div>
         </section>
+
         
         <section className="write-poem-section">
           <h2>Write a New Poem</h2>
@@ -149,24 +194,45 @@ function Profile() {
           </button>
         </footer>
 
+        {/* Modal for Folder */}
         {showModal && selectedFolder && (
           <Modal show={showModal} onHide={handleCloseModal} className="modal-right">
-          <Modal.Header>
-            <Modal.Title>{selectedFolder.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>Poems in {selectedFolder.name}:</h4>
-            <ul>
-              {selectedFolder.poems.map((poem, index) => (
-                <li key={index}>{poem}</li>
-              ))}
-            </ul>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
-          </Modal.Footer>
+            <Modal.Header>
+              <Modal.Title>{selectedFolder.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>Poems in {selectedFolder.name}:</h4>
+              <ul>
+                {selectedFolder.poems.map((poem, index) => (
+                  <li key={index} onClick={() => handlePoemClick(poem)}>{poem}</li>
+                ))}
+              </ul>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+            </Modal.Footer>
           </Modal>
         )}
+
+        {/* Modal for displaying selected poem */}
+        {showPoemPopup && selectedPoem && (
+          <Modal show={showPoemPopup} onHide={() => setShowPoemPopup(false)} className="modal-right">
+            <Modal.Header>
+              <Modal.Title>Poem Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>{selectedPoem}</h4>
+              <p>This is where the poem content will be displayed.</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowPoemPopup(false)}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+
+        {/* Modal for Add Folder */}
         {showAddFolderModal && (
           <Modal show={showAddFolderModal} onHide={handleCloseAddFolderModal} className="modal-right">
             <Modal.Header>
@@ -189,7 +255,11 @@ function Profile() {
               <Button variant="secondary" onClick={handleCloseAddFolderModal}>
                 Close
               </Button>
-              <Button variant="primary" onClick={handleCreateFolder}>
+              <Button 
+                variant="primary" 
+                onClick={handleCreateFolder} 
+                disabled={!newFolderName.trim()}
+              >
                 Create Folder
               </Button>
             </Modal.Footer>
@@ -197,6 +267,6 @@ function Profile() {
         )}
       </div>
     );
-  }
-  
-  export default Profile;
+}
+
+export default Profile;

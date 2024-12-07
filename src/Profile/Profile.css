@@ -87,17 +87,14 @@ header p {
     padding: 10px;
 }
 
-#bio {
-    display: flex; /* Use flexbox to distribute menu items */
-    justify-content: center;
-    align-items: center; 
+textarea#bio {
     width: 30%; 
-    height: 100%;
-    padding: 20px; /* Padding for the textarea */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners */
+    height: 150px; /* Set an appropriate height */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     resize: none; 
-    background-color: #ccc;
+    background-color: #f5f5f5; /* Lighter background for textarea */
 }
 
 #save-bio {
@@ -124,23 +121,30 @@ header p {
     margin-bottom: 10px;
 }
 
-/* Folder Styles */
-#folders-container {
-    display: flex; /* Flexbox for a responsive layout */
-    flex-wrap: wrap; /* Allow wrapping to next line */
-    gap: 15px; /* Space between folders */
-    justify-content: center; /* Center align the folders */
+#folders-container button {
+    padding: 10px;
+    background-color: #026502;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #folders-container button:hover {
+    background-color: #034d03;
+  }
+  
+  .folder {
+    width: 100%; /* Allow to expand with available space */
+    max-width: 150px; /* Maximum width for each folder */
+    background-color: #608f60;
+    padding: 15px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-bottom: 10px; /* Add spacing between folders */
 }
 
-.folder {
-    width: 150px; /* Fixed width for folders */
-    background-color: #608f60; /* Light yellowish background for folders */
-    padding: 15px 10px 10px; /* Padding for folder */
-    border-radius: 4px; /* Slightly rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    position: relative; /* Positioning for the pseudo-element */
-    text-align: center; /* Center the text in folders */
-}
 
 .folder h3 {
     margin: 0; /* Remove margin for folder title */
@@ -289,14 +293,6 @@ footer small_button:hover {
     background-color: #555; 
 }
 
-.modal-right {
-    position: fixed;  /* Fixed position relative to the viewport */
-    top: 50%;         /* Vertically center */
-    right: 0;         /* Align it to the right */
-    transform: translateY(-50%); /* Center vertically */
-    margin: 0;
-}
-
 /* Modal Styling */
 .modal-content {
     border-radius: 12px; /* Add rounded corners to modal */
@@ -312,16 +308,103 @@ footer small_button:hover {
     font-size: 1.5rem;
 }
 
-.modal-body {
-    font-size: 1rem;
-    color: #333; /* Slightly dark text */
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: center;
-}
-
 button {
     border-radius: 5px; /* Consistent border-radius for buttons */
+}
+/* Modal Background - Dim the page */
+.modal-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1050; /* Ensure modal is on top of other content */
+}
+
+/* Modal Content */
+.modal-content {
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    background-color: white; /* Modal background */
+    width: 80%; /* Adjust width */
+    max-width: 500px; /* Maximum width */
+    padding: 20px; /* Padding for content */
+    z-index: 1060; /* Ensure modal content is above background */
+}
+
+/* Modal Header */
+.modal-header {
+    background-color: #026502;
+    color: white;
+    padding: 10px;
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+}
+
+.modal-title {
+    font-size: 1.5rem;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 10px; /* Add space between header and body */
+}
+
+.modal-body ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modal-body ul li {
+    margin-bottom: 15px;
+}
+
+.modal-body button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-body button:hover {
+    background-color: #0056b3;
+}
+
+/* Modal Footer */
+.modal-footer {
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-footer button {
+    margin-left: 10px;
+}
+
+/* Close Button */
+button.close {
+    color: #000;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+}
+
+/* For the backdrop */
+.modal-backdrop {
+    z-index: 1040;
 }

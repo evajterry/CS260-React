@@ -40,6 +40,15 @@ async function updateUserBio(email, bio) {
   );
 }
 
+async function updateUserFolder(email, folder) {
+  await connectToDatabase();
+  return userCollection.updateOne(
+    { email },
+    { $set: { folder } },
+    { upsert: true }
+  );
+}
+
 async function createUser(user) {
   await connectToDatabase();
   return userCollection.insertOne(user);

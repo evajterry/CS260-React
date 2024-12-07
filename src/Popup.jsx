@@ -44,6 +44,8 @@ const Popup = ({ hidePopups, onLogin }) => {
     console.log('Logged into account:', userData);
     hidePopups();
     onLogin(formData.email);
+    localStorage.setItem("userEmail", formData.email);
+    console.log("User email saved:", localStorage.getItem("userEmail"));
     navigate('/Search');
   } else {
     alert('Error logging into account: account may not exist', displayError);

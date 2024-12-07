@@ -40,6 +40,7 @@ const CreateAccountPopup = ({ hidePopups, onAccountCreated }) => {
       hidePopups();
       console.log('onAccountCreated:', onAccountCreated, hidePopups);
       onAccountCreated(formData.email); // Pass the user name to update the header
+      localStorage.setItem("userEmail", formData.email);
       navigate('/Search');
     } else {
       alert('Error creating account: account may already exist', displayError);

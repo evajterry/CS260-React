@@ -51,27 +51,3 @@ export function Unauthenticated(props) { // not sure if props should be here
     setIsCreatingAccount,
   };
 }
-
-//   return (
-//     <>
-//       <div>
-//         <div className='input-group mb-3'>
-//           <span className='input-group-text'>@</span>
-//           <input className='form-control' type='text' value={userName} onChange={(e) => setUserName(e.target.value)} placeholder='your@email.com' />
-//         </div>
-//         <div className='input-group mb-3'>
-//           <span className='input-group-text'>🔒</span>
-//           <input className='form-control' type='password' onChange={(e) => setPassword(e.target.value)} placeholder='password' />
-//         </div>
-//         <Button variant='primary' onClick={() => loginOrCreate()} disabled={!userName || !password}>
-//           Login
-//         </Button>
-//         <Button variant='secondary' onClick={() => loginOrCreate()} disabled={!userName || !password}>
-//           Create
-//         </Button>
-//       </div>
-
-//       <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
-//     </>
-//   );
-// }
