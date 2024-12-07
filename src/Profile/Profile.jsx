@@ -81,6 +81,7 @@ function Profile() {
     const handlePoemClick = (poem) => {
       console.log("Poem clicked:", poem);
       setSelectedPoem(poem);
+      setShowPoemPopup(true);
       setShowPoemOverlay(true);
     };
     
@@ -97,15 +98,12 @@ function Profile() {
         </header>
         
         <div className="user-description">
-          <header>
-            <h1>Profile</h1>
-            <h2>Welcome, {email}!</h2>
-          </header>
+          <h1>{email}'s profile!</h1>
           
           <section className="bio-section">
-            <h2>About Me</h2>
+            <h2>About {email}</h2>
             <textarea
-              value={bio}
+              value={bio} 
               onChange={handleBioChange}
               placeholder="Tell us about yourself..."
             />
@@ -153,7 +151,7 @@ function Profile() {
         {showPoemPopup && selectedPoem && (
         <div className="custom-popup">
           <div className="popup-content">
-            <h3>Poem</h3>
+            <h3>Selected Poem:</h3>
             <p>{selectedPoem}</p> {/* Display the poem content */}
             <button className="close-btn" onClick={handleClosePopup}>Close</button>
           </div>
