@@ -68,7 +68,7 @@ const App = () => {
                 <>
                   <li className='nav-item'>
                     <NavLink className='nav-link' to='/Search'>
-                    Search
+                    Chat
                     </NavLink>
                   </li>
                   <li className='nav-item'>

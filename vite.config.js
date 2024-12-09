@@ -6,10 +6,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:4000',
-      '/rhymingApi': {
-        target: 'https://rhymebrain.com',
-        changeOrigin: true, // Ensures the origin of the request is changed to the target
-        rewrite: (path) => path.replace(/^\/rhymingApi/, ''), // Removes '/api' prefix from the request
+      '/ws': {
+        target: 'http://localhost:4000',
+        ws: true,
       },
     },
   },

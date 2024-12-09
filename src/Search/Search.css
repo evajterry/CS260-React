@@ -47,6 +47,52 @@ menu a:hover {
     background-color: #026502; 
 }
 
+#my-name {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background-color: #f9f9f9;
+    margin: 20px auto;
+    display: block;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  #my-name:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+  }
+  
+  #my-name::placeholder {
+    color: #888;
+  }
+
+  #new-msg {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background-color: #f9f9f9;
+    margin: 10px auto;
+    display: block;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  #new-msg:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+  }
+  
+  #new-msg::placeholder {
+    color: #888;
+  }
+
 .search-container {
     display: flex;
     justify-content: center;
@@ -129,3 +175,4 @@ footer small_button {
 footer small_button:hover {
     background-color: #555; 
 }
+

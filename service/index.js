@@ -2,6 +2,7 @@ const express = require('express');
 const uuid = require('uuid');
 const { getUser, updateUserBio, createUser, connectToDatabase, updateUserToken, updateUserPoems } = require('./database');
 const app = express();
+const { peerProxy } = require('./peerProxy.js');
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -12,6 +13,9 @@ app.use(express.json());
 // Serve up the front-end static content hosting
 app.use(express.static('public'));
 
+// Trust headers that are forwarded from the proxy so we can determine IP addresses
+app.set('trust proxy', true);
+
 // Router for service endpoints
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
@@ -21,19 +25,6 @@ app.use(`/api`, apiRouter);
 connectToDatabase().then(() => {
   console.log('Database connected!');
 }).catch(console.error);
-
-
-// app.post('/api/poems', (req, res) => {
-//   const { title, poem } = req.body;
-
-//   if (!title || !poem) { 
-//       return res.status(400).send("All fields are required.");
-//   }
-
-//   // Save poem logic here
-//   console.log(`Poem "${title}" saved!"`);
-//   res.status(200).send("Poem saved successfully.");
-// });
 
 // Save or update a user's bio
 apiRouter.post('/users/:email/bio', async (req, res) => {
@@ -142,11 +133,11 @@ apiRouter.post('/auth/create', async (req, res) => {
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
-  console.log('updateUserToken:', updateUserToken);
+  // console.log('updateUserToken:', updateUserToken);
 
   try {
     const user = await getUser(email);
-    console.log("user", user);
+    // console.log("user", user);
     if (!user) {
       return res.status(401).send({ msg: 'User not found' });
     }
@@ -222,3 +213,4 @@ apiRouter.get('/status', (req, res) => {
   res.send({ msg: 'API is working!' });
 });
   
+peerProxy(httpService);
