@@ -76,3 +76,33 @@ For this deliverable, I made all of my website's HTML pretty using CSS. This is 
 - [x] Frontend calls service endpoints.
 - [x] Currently, the create account api is working. The login is nearly there.
 - [x] Also, the user data is stored in memory and will be lost when the server restarts. This will change in future deliverables when I add a database. 
+
+## Websocket Deliverable 가즈아아아아!!!
+- [x] Backend listens for WebSocket connection
+- [x] Frontend makes WebSocket connection
+- [x] Data sent over WebSocket connection
+- [x] WebSocket data displayed in the application interface
+- [x] Application is fully functional
+
+This code sets up a WebSocket server in Node.js using the `ws` library and provides real-time communication between clients. Below is an explanation of its functionality:
+
+1. **Creating the WebSocket Server**:
+   - A WebSocket server is created using the `WebSocketServer` class from the `ws` library, which listens for HTTP connections that are upgraded to WebSocket connections.
+
+2. **Handling the HTTP Upgrade**:
+   - The `httpServer.on('upgrade')` event is triggered when an HTTP request is made to the server. It allows the protocol to be upgraded from HTTP to WebSocket, facilitating bidirectional communication between the client and server.
+
+3. **Managing WebSocket Connections**:
+   - Once a WebSocket connection is established, the server creates a new connection object, assigning it a unique ID using the `uuid.v4()` function. This connection object is stored in the `connections` array.
+   - The server listens for messages from clients using the `message` event and forwards the received message to all other connected clients, except the sender.
+
+4. **Handling Connection Closure**:
+   - When a WebSocket connection is closed (e.g., the client disconnects), the server removes the connection from the `connections` array, preventing messages from being sent to the closed WebSocket.
+
+5. **Ping/Pong Mechanism**:
+   - The WebSocket server implements a ping/pong mechanism to keep connections alive. The server sends a ping message to each client periodically. If a client fails to respond with a pong message, the server considers the connection inactive and terminates it.
+
+6. **Automatically Terminating Inactive Connections**:
+   - Every 10 seconds, the server checks if each connection is still alive. If a connection hasn’t responded to the previous ping, it is terminated. Otherwise, the server marks it as alive and sends another ping.
+
+This WebSocket server facilitates real-time message exchange between connected clients and ensures that inactive connections are removed to optimize resources.
