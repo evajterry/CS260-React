@@ -582,3 +582,190 @@ w3schools.com -- <a href="https://www.w3schools.com/html/default.asp">
   });
   ```
 
+## Given the following Express service code: What does the following front end JavaScript that performs a fetch return?
+``` javascript
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+app.get('/api/message', (req, res) => {
+    res.json({ message: 'Hello, World!' });
+});
+
+app.post('/api/data', (req, res) => {
+    const { data } = req.body;
+    res.json({ received: data });
+});
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
+```
+fetching data:
+``` javascript
+fetch('http://localhost:3000/api/message')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+```
+what it returns: 
+``` javascript
+{ message: 'Hello, World!' }
+```
+## How to store passwords in MongoDB:
+
+User passwords should never be stored in plaintext in MongoDB (or any database). Instead, they should be securely hashed and salted to ensure protection even if the database is compromised. Here's the proper way to handle passwords:
+
+## What is the websocket protocol intended to provide?
+
+The WebSocket protocol is intended to provide full-duplex communication over a single, long-lived connection between a client (e.g., a web browser) and a server. This protocol enables real-time, low-latency, and bidirectional communication, making it ideal for scenarios where frequent and fast updates between the server and client are required.
+
+## What do the following acronyms stand for? JSX, JS, AWS, NPM, NVM
+
+*JSX: JavaScript XML*
+
+A syntax extension for JavaScript, commonly used with React, that allows you to write HTML-like code inside JavaScript. It makes it easier to create and work with React components.
+
+*JS: JavaScript*
+
+A high-level, interpreted programming language commonly used for building dynamic and interactive web applications.
+
+*AWS: Amazon Web Services*
+
+A comprehensive cloud computing platform provided by Amazon, offering services like storage, computing power, databases, and machine learning.
+
+*NPM: Node Package Manager*
+
+A package manager for JavaScript, used to manage dependencies in Node.js projects. It helps developers install, update, and share libraries and frameworks.
+
+*NVM: Node Version Manager*
+
+A tool that allows developers to manage and switch between different versions of Node.js easily.
+
+## Given a set of React components that include each other, what will be generated
+
+```jsx
+function Parent() {
+    return (
+        <div>
+            <h1>Parent Component</h1>
+            <Child message="Hello from Parent!" />
+        </div>
+    );
+}
+
+function Child(props) {
+    return (
+        <div>
+            <h2>Child Component</h2>
+            <Grandchild message={props.message} />
+        </div>
+    );
+}
+
+function Grandchild(props) {
+    return <p>{props.message}</p>;
+}
+
+// Render Parent into the DOM
+const rootElement = document.getElementById('root');
+ReactDOM.render(<Parent />, rootElement);
+```
+
+Parent includes the Child component.
+Child receives a message prop from the Parent and passes it to the Grandchild.
+Grandchild renders the message prop into a `<p>` tag.
+
+## What does a React component with React.useState do?
+
+A React component that uses `React.useState` allows the component to manage state—a mechanism for storing data that can change over time and affect what the component renders.
+
+Here’s an explanation of how `React.useState` works, with an example:
+
+```jsx
+import React, { useState } from "react";
+
+function Counter() {
+    const [count, setCount] = useState(0); // Initialize state to 0
+
+    return (
+        <div>
+            <h1>Counter: {count}</h1>
+            <button onClick={() => setCount(count + 1)}>Increment</button>
+            <button onClick={() => setCount(count - 1)}>Decrement</button>
+            <button onClick={() => setCount(0)}>Reset</button>
+        </div>
+    );
+}
+
+export default Counter;
+```
+
+## What are React Hooks used for?
+React Hooks are functions introduced in React 16.8 that allow developers to use state and other React features in functional components, without needing to write class components. They simplify React component logic and improve reusability and readability.
+
+-[x] State Management:
+
+Hooks like useState enable stateful logic in functional components, making them behave like class components.
+-[x] Side Effects:
+
+Hooks like useEffect let you perform side effects (e.g., data fetching, subscriptions, or manually modifying the DOM) in functional components.
+-[x] Reusability:
+
+Custom hooks let you encapsulate and reuse logic across multiple components.
+-[x] Improved Composition:
+
+Hooks promote separation of concerns by grouping related logic into reusable functions, rather than spreading them across the lifecycle methods of class components.
+
+## What does the State Hook/Context Hook/Ref Hook/Effect Hook/Performance Hook do? https://react.dev/reference/react/hooks
+
+| Hook           | Purpose                           | Example Use Case                            |
+|----------------|-----------------------------------|---------------------------------------------|
+| **`useState`** | Manages state in functional components | A counter that updates on button clicks.   |
+| **`useContext`** | Accesses shared state via Context API | Passing theme data without prop drilling.  |
+| **`useRef`**   | Persists values or references DOM elements | Focusing an input field programmatically.  |
+| **`useEffect`** | Handles side effects like fetching data | Fetching API data after component renders. |
+| **`useMemo`**  | Memoizes expensive calculations    | Filtering a large list of items.           |
+| **`useCallback`** | Memoizes callback functions      | Optimizing functions passed to child components. |
+
+## What does package.json do?
+
+The `package.json` file is essential for Node.js projects, managing dependencies, scripts, and project metadata:
+
+- **Metadata**: Includes project name, version, description, and license.
+- **Dependencies**: Lists libraries for production (`dependencies`) and development (`devDependencies`).
+- **Scripts**: Defines commands to run tasks (e.g., `"start"`, `"test"`).
+- **Engines**: Specifies the required Node.js version.
+- **Repository**: Links to the project's Git repository.
+- **Private Flag**: Marks the project as private to prevent accidental publishing.
+- **Configuration**: Stores settings for tools like Babel or ESLint.
+
+### Example:
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+```
+## What does node.js do?
+Node.js is a runtime environment that allows JavaScript to be executed outside of a browser, typically on a server. It is built on Chrome's V8 JavaScript engine and provides a platform for building scalable, high-performance applications. Here's what Node.js does:
+
+## What does pm2 do?
+PM2 is a popular process manager for Node.js applications, designed to help manage and monitor Node.js applications in production. It provides several useful features for running, managing, and maintaining Node.js apps in a production environment.
+
+## What does vite do?
+- Vite serves your code in development mode using native ES modules, making the initial page load and hot module replacement (HMR) extremely fast.
+- It only bundles the files that are actually imported, reducing unnecessary processing during development.
+- Vite provides instant updates in the browser when you modify your code, without requiring a full page reload.
+
+
+
+
